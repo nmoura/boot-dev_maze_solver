@@ -16,6 +16,15 @@ class Tests(unittest.TestCase):
                 len(m1._cells[0]),
                 num_rows,
         )
+        self.assertEqual(
+                m1._cells[0][0].has_top_wall,
+                False,
+        )
+        self.assertEqual(
+                m1._cells[-1][-1].has_bottom_wall,
+                False,
+        )
+
 
     def test_maze_create_cells_large(self):
         num_cols = 50
@@ -29,6 +38,15 @@ class Tests(unittest.TestCase):
                 len(m2._cells[0]),
                 num_rows,
         )
+        self.assertEqual(
+                m2._cells[0][0].has_top_wall,
+                False,
+        )
+        self.assertEqual(
+                m2._cells[-1][-1].has_bottom_wall,
+                False,
+        )
+
 
 
 if __name__ == "__main__":
