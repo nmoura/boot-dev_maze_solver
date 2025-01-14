@@ -16,49 +16,30 @@ class Tests(unittest.TestCase):
                 len(m1._cells[0]),
                 num_rows,
         )
+
+    def test_maze_break_entrance_and_exit(self):
+        num_cols = 10
+        num_rows = 10
+        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
         self.assertEqual(
-                m1._cells[0][0].has_top_wall,
-                False,
+            m1._cells[0][0].has_top_wall,
+            False,
         )
         self.assertEqual(
-                m1._cells[-1][-1].has_bottom_wall,
-                False,
+            m1._cells[-1][-1].has_bottom_wall,
+            False,
         )
 
-        visiteds = []
+    def test_maze_reset_cells_visited(self):
+        num_cols = 10
+        num_rows = 10
+        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
         for col in m1._cells:
             for cell in col:
-                visiteds.append(cell.visited)
-        self.assertFalse(any(visiteds))
-
-
-    def test_maze_create_cells_large(self):
-        num_cols = 50
-        num_rows = 40
-        m2 = Maze(0, 0, num_rows, num_cols, 10, 10)
-        self.assertEqual(
-                len(m2._cells),
-                num_cols,
-        )
-        self.assertEqual(
-                len(m2._cells[0]),
-                num_rows,
-        )
-        self.assertEqual(
-                m2._cells[0][0].has_top_wall,
-                False,
-        )
-        self.assertEqual(
-                m2._cells[-1][-1].has_bottom_wall,
-                False,
-        )
-
-        visiteds = []
-        for col in m2._cells:
-            for cell in col:
-                visiteds.append(cell.visited)
-        self.assertFalse(any(visiteds))
-
+                self.assertEqual(
+                    cell.visited,
+                    False,
+                )
 
 
 if __name__ == "__main__":
