@@ -13,6 +13,8 @@ class Cell():
         self._y2 = None
         self._win = win
         self._wall_color = "black"
+        self.visited = False
+
         if win:
             self._no_wall_color = self._win._Window__canvas['background']
         else:

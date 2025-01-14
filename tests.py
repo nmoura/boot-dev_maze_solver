@@ -25,6 +25,12 @@ class Tests(unittest.TestCase):
                 False,
         )
 
+        visiteds = []
+        for col in m1._cells:
+            for cell in col:
+                visiteds.append(cell.visited)
+        self.assertFalse(any(visiteds))
+
 
     def test_maze_create_cells_large(self):
         num_cols = 50
@@ -46,6 +52,12 @@ class Tests(unittest.TestCase):
                 m2._cells[-1][-1].has_bottom_wall,
                 False,
         )
+
+        visiteds = []
+        for col in m2._cells:
+            for cell in col:
+                visiteds.append(cell.visited)
+        self.assertFalse(any(visiteds))
 
 
 
