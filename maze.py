@@ -46,6 +46,7 @@ class Maze():
         self._break_entrance_and_exit()
         self._break_walls_r(0, 0)
         self._reset_cells_visited()
+        self._solve()
 
 
     def _create_cells(self):
@@ -64,13 +65,13 @@ class Maze():
         y1 = j * self._cell_size_y + self._y1
         y2 = y1 + self._cell_size_y
         self._cells[i][j].draw(x1, y1, x2, y2)
-        self._animate()
+        self._animate(0.01)
 
-    def _animate(self):
+    def _animate(self, sleep_secs=0.01):
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.01)
+        time.sleep(sleep_secs)
 
     def _break_entrance_and_exit(self):
         i, j = 0, 0
@@ -109,3 +110,31 @@ class Maze():
         for i in range(self._num_cols):
             for j in range(self._num_rows):
                 self._cells[i][j].visited = False
+
+    def _solve(self):
+        return self._solve_r(0, 0)
+
+    def _solve_r(self, i, j):
+        self._animate(0.10)
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+        if current_cell == self._cells[-1][-1]:
+            return True
+
+        for direction, (di, dj) in self.DIRECTION_OFFSETS.items():
+            next_i = i + di
+            next_j = j + dj
+            if (next_i >= 0 and
+                next_j >= 0 and
+                next_i < self._num_cols and
+                next_j < self._num_rows and
+                not self._cells[next_i][next_j].visited and
+                getattr(current_cell, self.WALL_PAIRS[direction][0]) is False and
+                getattr(self._cells[next_i][next_j], self.WALL_PAIRS[direction][1]) is False):
+                    current_cell.draw_move(self._cells[next_i][next_j])
+                    solve_r_output = self._solve_r(next_i, next_j)
+                    if solve_r_output is True:
+                        return True
+                    else:
+                        current_cell.draw_move(self._cells[next_i][next_j], undo=True)
+        return False
